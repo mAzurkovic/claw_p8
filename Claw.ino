@@ -7,10 +7,10 @@
 
 #define SERVO_PIN 9
 #define CLOSE_ANGLE 45
-#define OPEN_ANGLE 110
+#define OPEN_ANGLE 120
 
 #define DISTANCE_SCALE 29.1
-#define CLOSE_RANGE 10 
+#define CLOSE_RANGE 12
 
 Servo servo;
 int keepClosed = 0;
@@ -25,6 +25,7 @@ void setup() {
   digitalWrite(GND_PIN, LOW) ;  // tell pin 10 to output LOW (0V, or ground)
   
   servo.attach(SERVO_PIN);
+  delay(500);
   servo.write(OPEN_ANGLE);         
 }
 
@@ -58,7 +59,7 @@ void varietyRound(Servo useServo, int sonarDistance) {
 void challengeRound(Servo useServo, int sonarDistance) {
   // check to close/open claw
   if (sonarDistance < CLOSE_RANGE && keepClosed != 1) {
-    closeClaw(useServo, 1, 45, OPEN_ANGLE);
+    closeClaw(useServo, 1, CLOSE_ANGLE, OPEN_ANGLE);
     delay(500);
     keepClosed = 1;
     delay(500);
@@ -70,10 +71,8 @@ void challengeRound(Servo useServo, int sonarDistance) {
     useServo.write(OPEN_ANGLE);  
   } else {
     useServo.write(CLOSE_ANGLE);
-    // closeClaw(useServo, 1, 45, OPEN_ANGLE);
   }
 }
-
 
 void loop() {
   int duration, distance;                     //defining variables
@@ -83,9 +82,11 @@ void loop() {
   duration = pulseIn(ECHO_PIN, HIGH);         //read echo pin
   distance = (duration / 2) / DISTANCE_SCALE; //compute distance from duration of echo Pin
 
-  //varietyRound(servo, distance);
 
-  challengeRound(servo, distance);
+  // *** CHANGE FUNCTION FOR DIFFERENT ROUND HERE *** \\
+   
+  varietyRound(servo, distance);
+  //challengeRound(servo, distance);
 
   // show distance on screen
   if (distance >= 400 || distance <= 0) {
