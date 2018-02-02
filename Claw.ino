@@ -40,11 +40,13 @@ void closeClaw(Servo useServo, int closingSpeed, int closeAngle, int initialAngl
 void varietyRound(Servo useServo, int sonarDistance) {
   // check to close/open claw
   if (sonarDistance < CLOSE_RANGE && keepClosed != 1) {
+    delay(1000);
     useServo.write(CLOSE_ANGLE);
     delay(500);
     keepClosed = 1;
     delay(500);
   } else if (keepClosed == 1 && sonarDistance < CLOSE_RANGE) {
+    delay(1000);
     keepClosed = 0;
     useServo.write(OPEN_ANGLE);  
     delay(500);  
@@ -59,11 +61,13 @@ void varietyRound(Servo useServo, int sonarDistance) {
 void challengeRound(Servo useServo, int sonarDistance) {
   // check to close/open claw
   if (sonarDistance < CLOSE_RANGE && keepClosed != 1) {
+    delay(1000);
     closeClaw(useServo, 1, CLOSE_ANGLE, OPEN_ANGLE);
     delay(500);
     keepClosed = 1;
     delay(500);
   } else if (keepClosed == 1 && sonarDistance < CLOSE_RANGE) {
+    delay(1000);
     keepClosed = 0;
     useServo.write(OPEN_ANGLE);  
     delay(500);  
@@ -86,7 +90,7 @@ void loop() {
   // *** CHANGE FUNCTION FOR DIFFERENT ROUND HERE *** \\
    
   varietyRound(servo, distance);
-  //challengeRound(servo, distance);
+ // challengeRound(servo, distance);
 
   // show distance on screen
   if (distance >= 400 || distance <= 0) {
